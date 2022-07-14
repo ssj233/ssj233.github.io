@@ -25,7 +25,9 @@
 	- ***[i](int)***表一回文串的中点
 	- ***[mx](int)***表最大的长度
 3. then
+
 ```
+
 for(i 1~s长度  (遍历))    枚举中点
 	if(i在以mid为中心的回文串内)
 		if(以i为中点的回文串的右端在以mid为中心的内部)
@@ -55,6 +57,7 @@ for(i 1~s长度  (遍历))    枚举中点
 -1删除末尾的'#'
 /2把#删掉
 *2是把回文串的另一半加上
+
 ```
 
 ### 图1
@@ -64,7 +67,9 @@ for(i 1~s长度  (遍历))    枚举中点
 ![image](https://images.cnblogs.com/cnblogs_com/blogs/754872/galleries/2186847/o_220712034719_xuxieban%20(2).png)
 
 ## CODE
+
 ```cpp
+
 //By CPP17
 int manacher(string s)
 {
@@ -90,4 +95,5 @@ int manacher(string s)
 	}
 	return mx - 1;
 }
+
 ```
