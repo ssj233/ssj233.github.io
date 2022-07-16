@@ -2,7 +2,7 @@
 
 > work on Github Page
 >
-> 以后会用Gridea改亿下页面
+> 以后会用Gridea修亿下页面
 ### [Manacher](/post/manacher)
 
 ### [浅谈STL容器](/post/stlrq)
