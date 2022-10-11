@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html>
+        <head>
+        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+        <meta charset="utf-8">
+        <title>代码片段 | ssjのblog</title>
+        <link rel="stylesheet" href="https://ssj233.github.io/styles/main.css">
+        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
+        <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+        <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+         <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+         <script >hljs.initHighlightingOnLoad();</script>
+
+    </head>
+    <body>
+              <header class="header mdui-m-b-5">      
+            <div class="container  ">
+                <div class="index-title animated fadeInDown mdui-text-center mdui-text-color-white mdui-m-b-2" style="animation-delay: 0.2s"><a href="https://ssj233.github.io">ssjのblog</a></div>
+                <div class="mdui-text-color-white animated fadeInDown mdui-text-center  mdui-m-b-3" style="animation-delay: 0.4s">温故而知新
+Blog by ssj233</div>
+           
+            <nav id="nav" class="mdui-text-center animated fadeInDown" style="animation-delay: 0.6s">
+                   
+                            <li><a href="/">首页</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/archives">归档</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/tags">标签</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/post/about">关于</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                  </nav>
+                </div>
+        </header>
+        <div class="mdui-container ">
+                <div class="mdui-row">
+                        <div class="mdui-col-md-8 mdui-col-offset-md-2 ">
+                                <article class="mdui-p-a-2 post animated fadeIn" style="animation-delay: 0.8s;animation-duration: 2s">
+                                    <div class="post-title  mdui-m-b-1">代码片段</div>
+                                    <div class="mdui-typo-body-2 mdui-m-b-2" datetime="2022-07-17 15:29:10">2022-07-17 / 5 min read</div>
+                                    <div class="mdui-m-b-2 mdui-typo post-neirong"><h2 id="只言片语">《只言片语》</h2>
+<h1 id="并查集模板">并查集模板</h1>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+typedef int ll;
+class bcj
+{
+private:
+	vector&lt;ll&gt; fa;
+
+public:
+	bcj() {}
+	bcj(ll n)
+	{
+		for (auto i = 0; i &lt;= n + 1; i++)
+			fa.push_back(i);
+	}
+	ll&amp; operator[](ll x) { return fa[x]; }
+	ll&amp; at(ll x) { return fa[x]; }
+	ll size() const { return fa.size(); }
+	ll ff(ll x);
+	void mg(ll x, ll y) { fa[ff(y)] = ff(x); }
+};
+ll bcj::ff(ll x)
+{
+	return (fa[x] == x) ? x : (fa[x] = ff(fa[x]));
+}
+int main()
+{
+	bcj a;
+	return 0;
+}
+</code></pre>
+<h1 id="矩阵">矩阵</h1>
+<h2 id="c-version">C Version</h2>
+<pre><code>#include &lt;stdio.h&gt;
+#define N 100
+//N 矩阵最大长和宽
+typedef struct matrix
+{
+	int h, w, aa[N][N];
+	//h:长 ， w:宽,  aa 矩阵
+} jz;
+void initjz(jz *a, int x, int y) //初始化,行x列y,全部0
+{
+	a-&gt;h = x, a-&gt;w = y;
+	for (int i = 0; i &lt; x; i++)
+		for (int j = 0; j &lt; y; j++)
+			a-&gt;aa[i][j] = 0;
+}
+void initjz(jz *a, int x, int y, int z) //初始化,行x列y,全部赋值z
+{
+	a-&gt;h = x, a-&gt;w = y;
+	for (int i = 0; i &lt; x; i++)
+		for (int j = 0; j &lt; y; j++)
+			a-&gt;aa[i][j] = z;
+}
+jz jz_cheng(jz x, jz y) //返回x*y
+{
+	jz s;
+	initjz(&amp;s, x.h, y.w);
+	for (int i = 0; i &lt; x.h; i++)
+		for (int j = 0; j &lt; y.w; j++)
+			for (int k = 0; k &lt; x.w; k++)
+				s.aa[i][j] += x.aa[i][k] * y.aa[k][j];
+	return s;
+}
+jz jz_jia(jz x, jz y) //返回x+y
+{
+	jz s;
+	initjz(&amp;s, x.h, x.w);
+	for (int i = 0; i &lt; s.h; i++)
+		for (int j = 0; j &lt; s.w; j++)
+			s.aa[i][j] = x.aa[i][j] + y.aa[i][j];
+	return s;
+}
+jz jz_jian(jz x, jz y) //返回x-y
+{
+	jz s;
+	initjz(&amp;s, x.h, x.w);
+	for (int i = 0; i &lt; s.h; i++)
+		for (int j = 0; j &lt; s.w; j++)
+			s.aa[i][j] = x.aa[i][j] - y.aa[i][j];
+	return s;
+}
+jz jz_chengf(jz a, int k) //返回a的k次，以快速幂实现
+{
+	if (k == 1)
+		return a;
+	jz aa = jz_chengf(a, k / 2);
+	aa = jz_cheng(aa, aa);
+	if (k % 2 != 0)
+		return jz_cheng(aa, a);
+	else
+		return aa;
+}
+void jz_cpy(jz *a, jz b) //复制b到a
+{
+	a-&gt;h = b.h;
+	a-&gt;w = b.w;
+	for (int i = 0; i &lt; a-&gt;h; i++)
+		for (int j = 0; j &lt; a-&gt;w; j++)
+			a-&gt;aa[i][j] = b.aa[i][j];
+	return;
+}
+int main()
+{
+	jz a, b;
+	initjz(&amp;a, 23, 31);
+	b = a; //或jz_cpy(&amp;b,a);
+	jz c = jz_jia(a, b);
+	return 0;
+}
+</code></pre>
+<h2 id="cpp-version">CPP Version</h2>
+<pre><code>#include &lt;bits/stdc++.h&gt;
+using namespace std;
+constexpr int N = 100;
+typedef struct matrix
+{
+	int h, w, aa[N][N];
+	//h:长 ， w:宽,  aa 矩阵
+	matrix() {}
+	matrix(int x, int y) : h(x), w(y) //建立长x宽y的矩阵全部赋值0
+	{
+		for (int i = 0; i &lt; x; i++)
+			for (int j = 0; j &lt; y; j++)
+				aa[i][j] = 0;
+	}
+	matrix(int x, int y, int z) : h(x), w(y) //建立长x宽y的矩阵全部赋值z
+	{
+		for (int i = 0; i &lt; x; i++)
+			for (int j = 0; j &lt; y; j++)
+				aa[i][j] = z;
+	}
+	friend matrix operator*(matrix x, matrix y) //矩阵x*矩阵y
+	{
+		matrix s(x.h, y.w);
+		for (int i = 0; i &lt; x.h; i++)
+			for (int j = 0; j &lt; y.w; j++)
+				for (int k = 0; k &lt; x.w; k++)
+					s.aa[i][j] += x.aa[i][k] * y.aa[k][j];
+		return s;
+	}
+	friend matrix operator+(matrix x, matrix y) //矩阵x+矩阵y
+	{
+		matrix s(x.h, x.w);
+		for (int i = 0; i &lt; s.h; i++)
+			for (int j = 0; j &lt; s.w; j++)
+				s.aa[i][j] = x.aa[i][j] + y.aa[i][j];
+		return s;
+	}
+	friend matrix operator-(matrix x, matrix y) //矩阵x-矩阵y
+	{
+		matrix s(x.h, x.w);
+		for (int i = 0; i &lt; s.h; i++)
+			for (int j = 0; j &lt; s.w; j++)
+				s.aa[i][j] = x.aa[i][j] - y.aa[i][j];
+		return s;
+	}
+	friend matrix operator^(matrix a, int k) //是乘方,不是XOR,用快速幂+递归实现
+	{
+		if (k == 1)
+			return a;
+		matrix aa = a ^ (k / 2);
+		aa = aa * aa;
+		if (k % 2 != 0)
+			return aa * a;
+		else
+			return aa;
+	}
+} jz;
+jz a;
+int main()
+{
+	return 0;
+}
+</code></pre>
+<script src="https://giscus.app/client.js"
+        data-repo="ssj233/ssj233.github.io"
+        data-repo-id="R_kgDOHp7Q2g"
+        data-category="talk"
+        data-category-id="DIC_kwDOHp7Q2s4CQ9sI"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+</div>
+                                    <div class="mdui-divider mdui-m-b-2"></div>
+                                    <div class="mdui-row-xs-2 post-fenye">
+                                       
+                                        <div class="mdui-col"> <div class="mdui-text-left"><a href="https://ssj233.github.io/post/BPDTnYINJ/">关于C/C++的Warning</a></div></div>
+                                        
+
+                                        
+                                        <div class="mdui-col"><div class="mdui-text-right "><a href="https://ssj233.github.io/post/kmp_alg/">浅谈KMP算法</a></div> </div>
+                                       
+                                      </div>
+                                   
+                                    <div class="mdui-divider mdui-m-t-2 mdui-m-b-2"></div>
+                                    
+                                     <script src="https://ssj233.github.io/media/scripts/Valine.min.js"></script>
+ <div class="comment"></div>
+
+<script>
+      new Valine({
+            el: '.comment',
+
+
+
+            path: window.location.pathname,
+            pageSize: 30,
+            avatar:'mm', 
+       })
+    </script> 
+<script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+           if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
+              clearInterval(checkExist);
+           }
+        }, 100);
+    }
+</script>
+                                </article>
+
+                                    
+                        </div>
+                      </div>
+    
+                
+
+              </div>
+                    <footer class="footer mdui-m-t-5 mdui-text-center">
+               <nav class="social-links">
+                      <ul>
+                      
+                      
+                           
+                      
+                           
+                      	
+                        <li class="social-link"><a href="https://github.com/ssj233" target="_blank"><i class="iconfont icon-github"></i></a></li>
+                          
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      	
+                        <li class="social-link"><a href="https://cnblogs.com/ssj233-aaa" target="_blank"><i class="iconfont icon-weibo"></i></a></li>
+                          
+                           
+                      
+                           
+                      </ul>
+                    </nav>
+                    <div class="copyright">
+                      <p>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> <br/> Theme <a href="https://github.com/alterfang/gridea-theme-song/" target="_blank"  title="宋"  >Song</a> by <a href="https://shanbu.fun/" target="_blank"  title="山卜方" >shanbufun</a> </p>
+                  </div>
+                  
+              </footer>
+    </body>
+</html>

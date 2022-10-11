@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html>
+        <head>
+        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+        <meta charset="utf-8">
+        <title>浅谈图の最小生成树 | ssjのblog</title>
+        <link rel="stylesheet" href="https://ssj233.github.io/styles/main.css">
+        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
+        <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+        <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+         <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+         <script >hljs.initHighlightingOnLoad();</script>
+
+    </head>
+    <body>
+              <header class="header mdui-m-b-5">      
+            <div class="container  ">
+                <div class="index-title animated fadeInDown mdui-text-center mdui-text-color-white mdui-m-b-2" style="animation-delay: 0.2s"><a href="https://ssj233.github.io">ssjのblog</a></div>
+                <div class="mdui-text-color-white animated fadeInDown mdui-text-center  mdui-m-b-3" style="animation-delay: 0.4s">温故而知新
+Blog by ssj233</div>
+           
+            <nav id="nav" class="mdui-text-center animated fadeInDown" style="animation-delay: 0.6s">
+                   
+                            <li><a href="/">首页</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/archives">归档</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/tags">标签</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/post/about">关于</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                  </nav>
+                </div>
+        </header>
+        <div class="mdui-container ">
+                <div class="mdui-row">
+                        <div class="mdui-col-md-8 mdui-col-offset-md-2 ">
+                                <article class="mdui-p-a-2 post animated fadeIn" style="animation-delay: 0.8s;animation-duration: 2s">
+                                    <div class="post-title  mdui-m-b-1">浅谈图の最小生成树</div>
+                                    <div class="mdui-typo-body-2 mdui-m-b-2" datetime="2022-07-17 15:09:23">2022-07-17 / 3 min read</div>
+                                    <div class="mdui-m-b-2 mdui-typo post-neirong"><h1 id="最小生成树">最小生成树</h1>
+<blockquote>
+<p>最小生成树算法有2种</p>
+</blockquote>
+<blockquote>
+<p>prim (点数^2)</p>
+</blockquote>
+<blockquote>
+<p>kruskal (边^log边)</p>
+</blockquote>
+<h1 id="prim">prim</h1>
+<p>其法:</p>
+<ol>
+<li>把1放入集合中</li>
+<li>找集合中的点的邻接点中边最小的(没有标记过的)</li>
+<li>把此邻接点放入集合</li>
+<li>标记</li>
+<li>重复2，直到所有节点都被放进集合中</li>
+</ol>
+<pre><code>vector&lt;int&gt;d;
+while(所有节点并没有都放d中)
+{
+	for(i遍历d中所有已入的节点)
+	{
+		for(遍历i的邻接点)
+		{
+			if(i到j的权值是最小的&amp;&amp;边没有标记&amp;&amp;j没有标记)
+			{
+				保存i，j;
+			}
+		}
+	}
+	标记j;
+	标记边;
+	总和+=i到j的权值
+}
+</code></pre>
+<p>具体地</p>
+<pre><code class="language-cpp">while ((int)d.size() &lt; n)//集合d
+{
+	edge mx{-1, 114514};//.first 记录j   .second 记录最大权值
+	int aa;//记录i
+	for (auto i : d)//遍历集合
+		for (auto j : a[i])//遍历i的邻接点
+			if (mx.second &gt; j.second &amp;&amp; !e[i][j.first] &amp;&amp; !e[j.first][i]&amp;&amp; !b[j.first])
+				mx = j, aa = i;//找最小的，没有标记的
+	d.push_back(mx.first);//放入集合
+	b[aa] = b[mx.first] = 1;//标记
+	e[aa][mx.first] = 1;//标记
+	s += mx.second;//总和+
+}
+</code></pre>
+<h1 id="kruskal">kruskal</h1>
+<p>其法:<br>
+建立并查集fa数组记录个点的父亲，初始化为自己(fa[2]=2)<br>
+一个找父亲的函数ff()</p>
+<p>for(遍历所有边)<br>
+{<br>
+1. 看边数有没有等于n-1(树的性质)，则break<br>
+2. 找没被选过的最小边<br>
+1. 看他们是否有被链接过(ff(from)==ff(to)),没有则让to的父亲重置为from<br>
+2. 边数加一<br>
+3. 总和加上全值<br>
+}<br>
+因为找最小的，可以考虑用堆或sort优化，<br>
+推荐用sort，，trust me!</p>
+<p>cpp code如下</p>
+<pre><code class="language-cpp">int n;//总点数
+int m;//总边数
+struct ee
+{
+	int f, t;//from and to
+	double v;//权值
+	ee() {}
+	ee(int a, int b, double c) : f(a), t(b), v(c) {}//构造函数
+	friend bool operator&lt;(ee a, ee b) { return a.v &lt; b.v; }//重载以排序
+} b[N];
+
+int ff(int x)//用递归找父亲
+{
+	if (fa[x] != x)
+		fa[x] = ff(fa[x]);
+	return fa[x];
+}
+
+sort(b + 1, b + 1 + m);//按权排序边
+
+for (int i = 1; i &lt;= m; i++)//遍历边
+{
+	if (bs == (n - 1))//边数==点数-1
+	{
+		printf(&quot;Need %.2lf miles of cable\n&quot;, sum);
+		break;
+	}
+	f = ff(b[i].f), ft = ff(b[i].t);
+	if (f != ft)//判断父亲是否相同
+		fa[ft] = f, sum += b[i].v, bs++;//重置父亲，总和+，边数+1
+	}
+
+
+</code></pre>
+<script src="https://giscus.app/client.js"
+        data-repo="ssj233/ssj233.github.io"
+        data-repo-id="R_kgDOHp7Q2g"
+        data-category="talk"
+        data-category-id="DIC_kwDOHp7Q2s4CQ9sI"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+</div>
+                                    <div class="mdui-divider mdui-m-b-2"></div>
+                                    <div class="mdui-row-xs-2 post-fenye">
+                                       
+                                        <div class="mdui-col"> <div class="mdui-text-left"><a href="https://ssj233.github.io/post/kmp_alg/">浅谈KMP算法</a></div></div>
+                                        
+
+                                        
+                                        <div class="mdui-col"><div class="mdui-text-right "><a href="https://ssj233.github.io/post/zui_duan_lu/">浅谈图の最短路</a></div> </div>
+                                       
+                                      </div>
+                                   
+                                    <div class="mdui-divider mdui-m-t-2 mdui-m-b-2"></div>
+                                    
+                                     <script src="https://ssj233.github.io/media/scripts/Valine.min.js"></script>
+ <div class="comment"></div>
+
+<script>
+      new Valine({
+            el: '.comment',
+
+
+
+            path: window.location.pathname,
+            pageSize: 30,
+            avatar:'mm', 
+       })
+    </script> 
+<script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+           if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
+              clearInterval(checkExist);
+           }
+        }, 100);
+    }
+</script>
+                                </article>
+
+                                    
+                        </div>
+                      </div>
+    
+                
+
+              </div>
+                    <footer class="footer mdui-m-t-5 mdui-text-center">
+               <nav class="social-links">
+                      <ul>
+                      
+                      
+                           
+                      
+                           
+                      	
+                        <li class="social-link"><a href="https://github.com/ssj233" target="_blank"><i class="iconfont icon-github"></i></a></li>
+                          
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      	
+                        <li class="social-link"><a href="https://cnblogs.com/ssj233-aaa" target="_blank"><i class="iconfont icon-weibo"></i></a></li>
+                          
+                           
+                      
+                           
+                      </ul>
+                    </nav>
+                    <div class="copyright">
+                      <p>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> <br/> Theme <a href="https://github.com/alterfang/gridea-theme-song/" target="_blank"  title="宋"  >Song</a> by <a href="https://shanbu.fun/" target="_blank"  title="山卜方" >shanbufun</a> </p>
+                  </div>
+                  
+              </footer>
+    </body>
+</html>

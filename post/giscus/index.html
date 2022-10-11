@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+        <head>
+        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+        <meta charset="utf-8">
+        <title>关于giscus在gridea的入土教程 | ssjのblog</title>
+        <link rel="stylesheet" href="https://ssj233.github.io/styles/main.css">
+        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
+        <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+        <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+         <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+         <script >hljs.initHighlightingOnLoad();</script>
+
+    </head>
+    <body>
+              <header class="header mdui-m-b-5">      
+            <div class="container  ">
+                <div class="index-title animated fadeInDown mdui-text-center mdui-text-color-white mdui-m-b-2" style="animation-delay: 0.2s"><a href="https://ssj233.github.io">ssjのblog</a></div>
+                <div class="mdui-text-color-white animated fadeInDown mdui-text-center  mdui-m-b-3" style="animation-delay: 0.4s">温故而知新
+Blog by ssj233</div>
+           
+            <nav id="nav" class="mdui-text-center animated fadeInDown" style="animation-delay: 0.6s">
+                   
+                            <li><a href="/">首页</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/archives">归档</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/tags">标签</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/post/about">关于</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                  </nav>
+                </div>
+        </header>
+        <div class="mdui-container ">
+                <div class="mdui-row">
+                        <div class="mdui-col-md-8 mdui-col-offset-md-2 ">
+                                <article class="mdui-p-a-2 post animated fadeIn" style="animation-delay: 0.8s;animation-duration: 2s">
+                                    <div class="post-title  mdui-m-b-1">关于giscus在gridea的入土教程</div>
+                                    <div class="mdui-typo-body-2 mdui-m-b-2" datetime="2022-09-20 19:14:52">2022-09-20 / 2 min read</div>
+                                    <div class="mdui-m-b-2 mdui-typo post-neirong"><h1 id="why">why</h1>
+<blockquote>
+<p>如果宁在国内能用gitalk那当我没说</p>
+</blockquote>
+<h1 id="using">using</h1>
+<ol>
+<li>
+<p>转到代码库的设置页面(settings)的Features部分</p>
+<p>勾选Discussions框(启用讨论)</p>
+</li>
+<li>
+<p>转到代码库的Discusion页面，新建一个讨论的类别</p>
+</li>
+<li>
+<p>打开 <a href="https://github.com/apps/giscus">这里</a>安装它，授予它对你的仓库的访问权</p>
+</li>
+<li>
+<p>打开 <a href="https://giscus.app/zh-CN">这里</a>，填写信息，</p>
+</li>
+</ol>
+<p>让后，你会获得一个类似于这样的东西</p>
+<pre><code class="language-html">&lt;script src=&quot;https://giscus.app/client.js&quot;
+        data-repo=&quot;[在此输入仓库]&quot;
+        data-repo-id=&quot;[在此输入仓库 ID]&quot;
+        data-category=&quot;[在此输入分类名]&quot;
+        data-category-id=&quot;[在此输入分类 ID]&quot;
+        data-mapping=&quot;pathname&quot;
+        data-strict=&quot;0&quot;
+        data-reactions-enabled=&quot;1&quot;
+        data-emit-metadata=&quot;0&quot;
+        data-input-position=&quot;bottom&quot;
+        data-theme=&quot;preferred_color_scheme&quot;
+        data-lang=&quot;zh-CN&quot;
+        crossorigin=&quot;anonymous&quot;
+        async&gt;
+&lt;/script&gt;
+</code></pre>
+<p>在Gridea中，把它粘贴到每一个需要有评论的文章内</p>
+<p><em>通常的，蓝星人会把它粘贴到文章的末尾</em></p>
+<h1 id="end">end</h1>
+<p>最近电脑上登陆github和qqmail都要验证，以后会考虑配图？</p>
+<script src="https://giscus.app/client.js"
+        data-repo="ssj233/ssj233.github.io"
+        data-repo-id="R_kgDOHp7Q2g"
+        data-category="talk"
+        data-category-id="DIC_kwDOHp7Q2s4CQ9sI"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script></div>
+                                    <div class="mdui-divider mdui-m-b-2"></div>
+                                    <div class="mdui-row-xs-2 post-fenye">
+                                       
+                                        <div class="mdui-col"> </div>
+                                        
+
+                                        
+                                        <div class="mdui-col"><div class="mdui-text-right "><a href="https://ssj233.github.io/post/BPDTnYINJ/">关于C/C++的Warning</a></div> </div>
+                                       
+                                      </div>
+                                   
+                                    <div class="mdui-divider mdui-m-t-2 mdui-m-b-2"></div>
+                                    
+                                     <script src="https://ssj233.github.io/media/scripts/Valine.min.js"></script>
+ <div class="comment"></div>
+
+<script>
+      new Valine({
+            el: '.comment',
+
+
+
+            path: window.location.pathname,
+            pageSize: 30,
+            avatar:'mm', 
+       })
+    </script> 
+<script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+           if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
+              clearInterval(checkExist);
+           }
+        }, 100);
+    }
+</script>
+                                </article>
+
+                                    
+                        </div>
+                      </div>
+    
+                
+
+              </div>
+                    <footer class="footer mdui-m-t-5 mdui-text-center">
+               <nav class="social-links">
+                      <ul>
+                      
+                      
+                           
+                      
+                           
+                      	
+                        <li class="social-link"><a href="https://github.com/ssj233" target="_blank"><i class="iconfont icon-github"></i></a></li>
+                          
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      	
+                        <li class="social-link"><a href="https://cnblogs.com/ssj233-aaa" target="_blank"><i class="iconfont icon-weibo"></i></a></li>
+                          
+                           
+                      
+                           
+                      </ul>
+                    </nav>
+                    <div class="copyright">
+                      <p>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> <br/> Theme <a href="https://github.com/alterfang/gridea-theme-song/" target="_blank"  title="宋"  >Song</a> by <a href="https://shanbu.fun/" target="_blank"  title="山卜方" >shanbufun</a> </p>
+                  </div>
+                  
+              </footer>
+    </body>
+</html>

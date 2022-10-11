@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html>
+        <head>
+        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+        <meta charset="utf-8">
+        <title>浅谈图の最短路 | ssjのblog</title>
+        <link rel="stylesheet" href="https://ssj233.github.io/styles/main.css">
+        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
+        <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+        <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+         <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+         <script >hljs.initHighlightingOnLoad();</script>
+
+    </head>
+    <body>
+              <header class="header mdui-m-b-5">      
+            <div class="container  ">
+                <div class="index-title animated fadeInDown mdui-text-center mdui-text-color-white mdui-m-b-2" style="animation-delay: 0.2s"><a href="https://ssj233.github.io">ssjのblog</a></div>
+                <div class="mdui-text-color-white animated fadeInDown mdui-text-center  mdui-m-b-3" style="animation-delay: 0.4s">温故而知新
+Blog by ssj233</div>
+           
+            <nav id="nav" class="mdui-text-center animated fadeInDown" style="animation-delay: 0.6s">
+                   
+                            <li><a href="/">首页</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/archives">归档</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/tags">标签</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/post/about">关于</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                  </nav>
+                </div>
+        </header>
+        <div class="mdui-container ">
+                <div class="mdui-row">
+                        <div class="mdui-col-md-8 mdui-col-offset-md-2 ">
+                                <article class="mdui-p-a-2 post animated fadeIn" style="animation-delay: 0.8s;animation-duration: 2s">
+                                    <div class="post-title  mdui-m-b-1">浅谈图の最短路</div>
+                                    <div class="mdui-typo-body-2 mdui-m-b-2" datetime="2022-07-17 15:08:43">2022-07-17 / 6 min read</div>
+                                    <div class="mdui-m-b-2 mdui-typo post-neirong"><h1 id="图的最短路">图的最短路</h1>
+<blockquote>
+<p>图的最短路算法主要分为以下几种</p>
+</blockquote>
+<blockquote>
+<p>Dijkstra(only 正权图)</p>
+</blockquote>
+<blockquote>
+<p>Bellman-Ford</p>
+</blockquote>
+<blockquote>
+<p>SPFA(Bellman-Ford的改进，不能有负权环)</p>
+</blockquote>
+<blockquote>
+<p>Floyd(n^3，多源点最短路)</p>
+</blockquote>
+<p>这里主要介绍Dijkstra,SPFA和Floyd</p>
+<h1 id="补充说明">补充说明</h1>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>类型</th>
+<th style="text-align:left">表</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>a</td>
+<td>vector</td>
+<td style="text-align:left">邻近点数组</td>
+</tr>
+<tr>
+<td>b</td>
+<td>int[]</td>
+<td style="text-align:left">标记数组</td>
+</tr>
+<tr>
+<td>d</td>
+<td>int[]</td>
+<td style="text-align:left">距离数组</td>
+</tr>
+<tr>
+<td>edge</td>
+<td>pair&lt;int,int&gt;</td>
+<td style="text-align:left">具体看代码的注释</td>
+</tr>
+</tbody>
+</table>
+<p>for(auto i:a){}</p>
+<p>C++11提供的新的遍历数组和容器的方法</p>
+<p>auto</p>
+<p>C++11引入的，让系统自己判断此处auto替代的类型</p>
+<h1 id="dijkstra仅用于正权图">Dijkstra(仅用于正权图)</h1>
+<h2 id="无优化">无优化</h2>
+<p>设s为起点,数组d为各点到s的距离，初始化为114514</p>
+<p>其法:</p>
+<ol>
+<li>松弛s的邻近点</li>
+</ol>
+<p>for(int i=1;i&lt;n;i++){</p>
+<ol start="2">
+<li>
+<p>找到d中最小的且没有标记过的，让它作为新的起点ss</p>
+</li>
+<li>
+<p>松弛ss的邻近点(比较 d[邻近点] d[ss]+(ss到这个邻近点的权值))</p>
+</li>
+</ol>
+<p>}</p>
+<p>此时d数组保存的值就是s到个点的最短路</p>
+<pre><code class="language-cpp">a是存邻近点的vector
+.first表到的点，.second表边权
+void djstl(const int &amp;n, int f)
+{
+	int d[n + 1], m, mn, s = f;
+	bool b[n + 1]{0};//标记
+	for (int i = 0; i &lt;= n; i++)
+		d[i] = 114514;//初始化为无限大
+	d[f] = 0;
+	b[s] = 1;
+	for (auto i : a[s])//松弛s邻近点
+		if (i.second &lt; d[i.first])
+			d[i.first] = i.second;
+	for (auto i = 1; i &lt; n; i++)
+	{
+		mn = 114514;//初始化
+		for (auto j = 1; j &lt;= n; j++)
+			if (!b[j] &amp;&amp; mn &gt; d[j])//找最小的
+				mn = d[j], s = j;
+		for (auto j : a[s])//松弛邻近点
+			if (d[j.first] &gt; d[s] + j.second)//如果能松弛
+				d[j.first] = d[s] + j.second;//松弛
+		b[s] = 1;//标记
+	}
+	for (auto i = 1; i &lt;= n; i++)
+		cout &lt;&lt; d[i] &lt;&lt; endl;
+	return;
+}
+</code></pre>
+<h2 id="堆优化">堆优化</h2>
+<p>其法:</p>
+<ol>
+<li>松弛s的邻近点,拖堆里</li>
+</ol>
+<p>for(int i=1;i&lt;n;i++){</p>
+<ol start="2">
+<li>
+<p>ss=堆顶  去掉了欸个找的流程</p>
+</li>
+<li>
+<p>松弛ss的邻近点(比较 d[邻近点] d[ss]+(ss到这个邻近点的权值))，<br>
+把d[邻近点]拖推里</p>
+</li>
+</ol>
+<p>}</p>
+<p>此时d数组保存的值就是s到个点的最短路</p>
+<p>以下是堆的代码</p>
+<pre><code class="language-cpp">typedef pair&lt;int, int&gt; edge;
+vector&lt;edge&gt; a[501];
+//这里的.first是到的点，.second是权值
+bool operator&gt;(edge a, edge b)
+{
+	return a.second &gt; b.second;
+}//重载&gt;用于堆
+void djstl(const int &amp;n, int f)
+{
+	priority_queue&lt;edge, vector&lt;edge&gt;, greater&lt;edge&gt;&gt; aa;//创建堆aa
+	//这里aa的.first是点，  .second是  距离[*.first]
+	int d[n + 1]{0}, s = f;
+	for (int i = 1; i &lt;= n; i++)
+		d[i] = 114514;//初始化为无限大
+	for (auto i : a[s])//松弛s的邻近点
+	{
+		if (i.second &lt; d[i.first])
+		{
+			d[i.first] = i.second;//松弛s邻近点,
+			aa.push({i.first, d[i.first]});//入堆
+		}
+	}
+	for (auto i = 1; i &lt; n; i++)
+	{
+		s = aa.top().first;//取堆顶，将堆顶作为起点
+		aa.pop();//弹出堆
+		for (auto j : a[s])//遍历起点的邻近点
+		{
+			if (d[j.first] &gt; d[s] + j.second)//松弛s邻近点
+			{
+				d[j.first] = d[s] + j.second;//松弛
+				aa.push({j.first, d[j.first]});//入堆
+			}
+		}
+	}
+	for (auto i = 1; i &lt;= n; i++)
+		cout &lt;&lt; d[i] &lt;&lt; endl;
+	return;
+}
+
+</code></pre>
+<h1 id="spfa">SPFA</h1>
+<h2 id="spfa用宽搜实现">SPFA用宽搜实现</h2>
+<p>其法:</p>
+<pre><code>int setp=0;
+while(队列不为空)
+{
+	setp++;
+	if(step&gt;总边数)
+	{
+		说明这题有负权环;
+		输出(“无解”);
+		return 0;
+	}
+	for(遍历队首邻近点)
+	{
+		if(能够松弛d[邻近点]&gt;权+d[队首])
+		{
+			if(不在队列里)
+			{
+				松弛;
+				将邻近点入队;
+			}
+		}
+	}
+	取消标记队首;
+	弹出队首;
+}
+</code></pre>
+<p>code如下</p>
+<pre><code class="language-cpp">//这里是求1到n的
+
+void spfa()
+{
+	array&lt;int, N&gt; d;
+	array&lt;int, N&gt; b;
+	queue&lt;int&gt; u;//队列
+	for (auto &amp;i : d)
+		i = 114514;//初始化
+	for (auto &amp;i : b)
+		i = false;//初始化
+	u.push(1);//初始化
+	b[1] = 1;//初始化
+	d[1] = 0;//初始化
+	while (!u.empty())//如果队列不空
+	{
+		step++;//记录步数
+		if (step &gt; m)//有负权环
+		{
+			printf(&quot;No Solution&quot;);
+			exit(0);
+		}
+		int f = u.front();//取队首
+		for (auto i : a[f])//松弛队首的邻近点
+		{
+			if (d[i.first] &gt; i.second + d[f])//如果能松弛
+			{
+				d[i.first] = i.second + d[f];//松弛
+				if (!b[i.first])//不在队列里
+				{
+					b[i.first] = true;//标记
+					u.push(i.first);//入队
+				}
+			}
+		}
+		b[f] = 0;//取消标记
+		u.pop();//出队
+	}
+	cout &lt;&lt; d[n];
+}
+</code></pre>
+<h1 id="floyd">Floyd</h1>
+<p>点i到j的路有两种:i到j，i到中介k再到j<br>
+所以，可以用DP解决<br>
+d[i][j]表i到j的距离</p>
+<p>先初始化d，全部为最大值<br>
+把所有点的所有邻近点的权值放入f中<br>
+(连上能直接连上的点)<br>
+然后:</p>
+<pre><code class="language-cpp">for (int k = 1; k &lt;= n; k++)//枚举中介k
+	for (int i = 1; i &lt;= n; i++)//枚举i
+		for (int j = 1; j &lt;= n; j++)//枚举j
+			if (i != k &amp;&amp; i != j &amp;&amp; j != k)
+				if (d[i][k] + d[k][j] &lt; d[i][j])//能被松弛
+					d[i][j] = d[i][k] + d[k][j];
+cout&lt;&lt;d[from][to];
+</code></pre>
+<script src="https://giscus.app/client.js"
+        data-repo="ssj233/ssj233.github.io"
+        data-repo-id="R_kgDOHp7Q2g"
+        data-category="talk"
+        data-category-id="DIC_kwDOHp7Q2s4CQ9sI"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+</div>
+                                    <div class="mdui-divider mdui-m-b-2"></div>
+                                    <div class="mdui-row-xs-2 post-fenye">
+                                       
+                                        <div class="mdui-col"> <div class="mdui-text-left"><a href="https://ssj233.github.io/post/mst_map/">浅谈图の最小生成树</a></div></div>
+                                        
+
+                                        
+                                        <div class="mdui-col"><div class="mdui-text-right "><a href="https://ssj233.github.io/post/CPP_STLs/">浅谈STL容器</a></div> </div>
+                                       
+                                      </div>
+                                   
+                                    <div class="mdui-divider mdui-m-t-2 mdui-m-b-2"></div>
+                                    
+                                     <script src="https://ssj233.github.io/media/scripts/Valine.min.js"></script>
+ <div class="comment"></div>
+
+<script>
+      new Valine({
+            el: '.comment',
+
+
+
+            path: window.location.pathname,
+            pageSize: 30,
+            avatar:'mm', 
+       })
+    </script> 
+<script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+           if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
+              clearInterval(checkExist);
+           }
+        }, 100);
+    }
+</script>
+                                </article>
+
+                                    
+                        </div>
+                      </div>
+    
+                
+
+              </div>
+                    <footer class="footer mdui-m-t-5 mdui-text-center">
+               <nav class="social-links">
+                      <ul>
+                      
+                      
+                           
+                      
+                           
+                      	
+                        <li class="social-link"><a href="https://github.com/ssj233" target="_blank"><i class="iconfont icon-github"></i></a></li>
+                          
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      	
+                        <li class="social-link"><a href="https://cnblogs.com/ssj233-aaa" target="_blank"><i class="iconfont icon-weibo"></i></a></li>
+                          
+                           
+                      
+                           
+                      </ul>
+                    </nav>
+                    <div class="copyright">
+                      <p>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> <br/> Theme <a href="https://github.com/alterfang/gridea-theme-song/" target="_blank"  title="宋"  >Song</a> by <a href="https://shanbu.fun/" target="_blank"  title="山卜方" >shanbufun</a> </p>
+                  </div>
+                  
+              </footer>
+    </body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+        <head>
+        <meta name="viewport" content="width=device-width,minimum-scale=1,maximum-scale=1,initial-scale=1,user-scalable=no" />
+        <meta charset="utf-8">
+        <title>关于C/C++的Warning | ssjのblog</title>
+        <link rel="stylesheet" href="https://ssj233.github.io/styles/main.css">
+        <link rel="stylesheet" href="https://at.alicdn.com/t/font_1306644_jwtuc2zzbrd.css">
+        <link href="https://cdn.bootcss.com/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
+        <script src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+         <script src="https://cdn.bootcss.com/highlight.js/9.15.10/highlight.min.js"></script>
+         <script >hljs.initHighlightingOnLoad();</script>
+
+    </head>
+    <body>
+              <header class="header mdui-m-b-5">      
+            <div class="container  ">
+                <div class="index-title animated fadeInDown mdui-text-center mdui-text-color-white mdui-m-b-2" style="animation-delay: 0.2s"><a href="https://ssj233.github.io">ssjのblog</a></div>
+                <div class="mdui-text-color-white animated fadeInDown mdui-text-center  mdui-m-b-3" style="animation-delay: 0.4s">温故而知新
+Blog by ssj233</div>
+           
+            <nav id="nav" class="mdui-text-center animated fadeInDown" style="animation-delay: 0.6s">
+                   
+                            <li><a href="/">首页</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/archives">归档</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/tags">标签</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                            <li><a href="/post/about">关于</a>
+                                <span class="nav-style top"></span>
+                                <span class="nav-style bottom"></span>
+                                <span class="nav-style left"></span>
+                                <span class="nav-style right"></span>
+                                </li>
+                    
+                  </nav>
+                </div>
+        </header>
+        <div class="mdui-container ">
+                <div class="mdui-row">
+                        <div class="mdui-col-md-8 mdui-col-offset-md-2 ">
+                                <article class="mdui-p-a-2 post animated fadeIn" style="animation-delay: 0.8s;animation-duration: 2s">
+                                    <div class="post-title  mdui-m-b-1">关于C/C++的Warning</div>
+                                    <div class="mdui-typo-body-2 mdui-m-b-2" datetime="2022-08-22 09:27:09">2022-08-22 / 2 min read</div>
+                                    <div class="mdui-m-b-2 mdui-typo post-neirong"><h2 id="如何发现更多warning">如何发现更多Warning🙃</h2>
+<blockquote>
+<p>在编译时加上命令<code>-Wall</code>和<code>-Wextra</code><br>
+即<code>g++ a.cpp -o a.out -Wall -Wextra</code><br>
+Warning是极为有用的，可以提醒你一些意想不到的问题</p>
+</blockquote>
+<h2 id="关于warning和error">关于Warning和error</h2>
+<h3 id="operation-on-i-may-be-undefined">operation on ‘i’ may be undefined</h3>
+<blockquote>
+<p>对<code>i</code>的操作并没有被定义(执行)<br>
+这种情况常出现于复合语句内，<s>个人认为属于编译器的问题</s></p>
+</blockquote>
+<pre><code class="language-cpp">a[i++]=x;
+//改为下面的版本即可避免Warning
+a[i]=x;
+i++;
+//复合语句还是少用点好，
+</code></pre>
+<p>但有的时候，写在<code>for</code>里的复合语句的执行顺序可能不是你希望的<br>
+在有一题中，我WA0的原因就是因为复合语句</p>
+<pre><code class="language-cpp">for (i = 1, x[++n] = A - a[n - 1]; i &lt; n; i++) x[i] = a[i] - a[i - 1];
+//但它的执行顺序并没有如我所想
+
+n++;
+for (i = 1, x[n] = A - a[n - 1]; i &lt; n; i++) x[i] = a[i] - a[i - 1];
+//相比之下，改成这样却能AC
+</code></pre>
+<h3 id="value-computed-is-not-used">value computed is not used</h3>
+<blockquote>
+<p>这个值没有被使用<br>
+在有逗号出现的地方Warning较多</p>
+</blockquote>
+<pre><code class="language-cpp">s = x[1], y[1];
+//注意，这里y[1]虽然在表达式中
+//但它的值却并没有对表达式的值(变量s)的值有影响
+
+//请确认是否把其它运算符号写成了逗号
+s=x[1]+y[1];
+</code></pre>
+<h3 id="gets-was-not-declared-in-this-scope">‘gets’ was not declared in this scope</h3>
+<h3 id="the-gets-function-is-dangerous-and-should-not-be-used">the `gets' function is dangerous and should not be used.</h3>
+<blockquote>
+<p>关于<code>gets</code>，它已经死了</p>
+</blockquote>
+<p>对于CPP玩家，可以转用<code>getline</code><br>
+使用:<code>getline(cin,一个string类)</code></p>
+<script src="https://giscus.app/client.js"
+        data-repo="ssj233/ssj233.github.io"
+        data-repo-id="R_kgDOHp7Q2g"
+        data-category="talk"
+        data-category-id="DIC_kwDOHp7Q2s4CQ9sI"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+</script>
+</div>
+                                    <div class="mdui-divider mdui-m-b-2"></div>
+                                    <div class="mdui-row-xs-2 post-fenye">
+                                       
+                                        <div class="mdui-col"> <div class="mdui-text-left"><a href="https://ssj233.github.io/post/giscus/">关于giscus在gridea的入土教程</a></div></div>
+                                        
+
+                                        
+                                        <div class="mdui-col"><div class="mdui-text-right "><a href="https://ssj233.github.io/post/dai-ma-pian-duan/">代码片段</a></div> </div>
+                                       
+                                      </div>
+                                   
+                                    <div class="mdui-divider mdui-m-t-2 mdui-m-b-2"></div>
+                                    
+                                     <script src="https://ssj233.github.io/media/scripts/Valine.min.js"></script>
+ <div class="comment"></div>
+
+<script>
+      new Valine({
+            el: '.comment',
+
+
+
+            path: window.location.pathname,
+            pageSize: 30,
+            avatar:'mm', 
+       })
+    </script> 
+<script>
+    if(window.location.hash){
+        var checkExist = setInterval(function() {
+           if ($(window.location.hash).length) {
+              $('html, body').animate({scrollTop: $(window.location.hash).offset().top-90}, 1000);
+              clearInterval(checkExist);
+           }
+        }, 100);
+    }
+</script>
+                                </article>
+
+                                    
+                        </div>
+                      </div>
+    
+                
+
+              </div>
+                    <footer class="footer mdui-m-t-5 mdui-text-center">
+               <nav class="social-links">
+                      <ul>
+                      
+                      
+                           
+                      
+                           
+                      	
+                        <li class="social-link"><a href="https://github.com/ssj233" target="_blank"><i class="iconfont icon-github"></i></a></li>
+                          
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      
+                           
+                      	
+                        <li class="social-link"><a href="https://cnblogs.com/ssj233-aaa" target="_blank"><i class="iconfont icon-weibo"></i></a></li>
+                          
+                           
+                      
+                           
+                      </ul>
+                    </nav>
+                    <div class="copyright">
+                      <p>Powered by <a href="https://github.com/getgridea/gridea" target="_blank">Gridea</a> <br/> Theme <a href="https://github.com/alterfang/gridea-theme-song/" target="_blank"  title="宋"  >Song</a> by <a href="https://shanbu.fun/" target="_blank"  title="山卜方" >shanbufun</a> </p>
+                  </div>
+                  
+              </footer>
+    </body>
+</html>
